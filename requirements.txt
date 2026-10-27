@@ -1,0 +1,10 @@
+streamlit
+pymupdf
+faiss-cpu
+sentence-transformers
+requests
+openai
+numpy
+pytesseract
+pillow
+rank_bm25

@@ -1,0 +1,42 @@
+# ---------------------------------------------------------------
+# docker-compose.yml
+# ---------------------------------------------------------------
+# Runs the app + Ollama together with one command:
+#     docker compose up
+# ---------------------------------------------------------------
+
+version: "3.9"
+
+services:
+
+  # Ollama — runs Mistral-7B locally
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama    # persist downloaded models
+    # Pull the model automatically on first start
+    entrypoint: >
+      sh -c "ollama serve &
+             sleep 5 &&
+             ollama pull mistral &&
+             wait"
+
+  # Streamlit app
+  app:
+    build: .
+    container_name: research_assistant
+    ports:
+      - "8501:8501"
+    depends_on:
+      - ollama
+    environment:
+      # Point the app to the Ollama container
+      - OLLAMA_HOST=http://ollama:11434
+    volumes:
+      - ./data:/app/data             # persist FAISS index between runs
+
+volumes:
+  ollama_data:

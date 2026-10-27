@@ -1,0 +1,21 @@
+# Local secrets and environment files
+.env
+.env.*
+!.env.example
+.streamlit/secrets.toml
+
+# User data, uploaded documents, indexes, and chat history
+data/
+chat_history.json
+
+# Python artifacts and environments
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+
+# Editor and operating-system files
+.DS_Store
+.idea/
+.vscode/
